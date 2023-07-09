@@ -1,56 +1,27 @@
-document.addEventListener("DOMContentLoaded", function () {
-  var buttons = document.querySelectorAll(".btn");
-  var result = document.getElementById("result");
+let input = document.getElementById('result');
+let buttons = document.querySelectorAll('button');
 
-  // Attach event listeners to all buttons
-  for (var i = 0; i < buttons.length; i++) {
-    buttons[i].addEventListener("click", function () {
-      var val = this.dataset.value;
-      addToResult(val);
-    });
-  }
+let string = "";
+let arr = Array.from(buttons);
+arr.forEach(button => {
+    button.addEventListener('click', (e) =>{
+        if(e.target.innerHTML == '='){
+            string = eval(string);
+            input.value = string;
+        }
 
-  // Handle keyboard events
-  document.addEventListener("keydown", function (event) {
-    if (/^[0-9]$/.test(event.key)) {
-      addToResult(event.key);
-    } else if (event.key === "Backspace") {
-      deleteLast();
-    } else if (event.key === "Escape") {
-      clearResult();
-    } else if (event.key === "+" || event.key === "-" || event.key === "*" || event.key === "/" || event.key === "%") {
-      addToResult(event.key);
-    } else if (event.key === "Enter") {
-      calculate();
-    } else {
-      event.preventDefault();
-      alert("Only numbers are allowed!");
-    }
-  });
-
-  // Functions to handle calculator operations
-  function addToResult(val) {
-    if (/^[0-9]$/.test(val)) {
-      result.value += val;
-    } else {
-      result.value = "";
-      alert("Only numbers are allowed!");
-    }
-  }
-
-  function clearResult() {
-    result.value = "";
-  }
-
-  function deleteLast() {
-    result.value = result.value.slice(0, -1);
-  }
-
-  function calculate() {
-    try {
-      result.value = eval(result.value);
-    } catch (e) {
-      alert("Invalid expression!");
-    }
-  }
-});
+        else if(e.target.innerHTML == 'AC'){
+            string = "";
+            input.value = string;
+        }
+        else if(e.target.innerHTML == 'DEL'){
+            string = string.substring(0, string.length-1);
+            input.value = string;
+        }
+        else{
+            string += e.target.innerHTML;
+            input.value = string;
+        }
+        
+    })
+})
